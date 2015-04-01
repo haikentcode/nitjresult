@@ -50,6 +50,45 @@ class nitjresult{
 
 
 
+function subjectList($depart,$sem){
+    
+
+     $hk=mysql_connect("localhost","haikent","gudan");
+
+     if(!$hk) die("problem in connection");
+
+     mysql_select_db("nitjresult",$hk);
+       
+     $result=mysql_query("SELECT * FROM subjectlist WHERE `sem`='$sem' AND `depart`='$depart' ");
+     
+       $data="";
+      while($row=mysql_fetch_array($result)){
+
+          
+          $data.='<option value="'.$row['code'].'">'.$row['name'].'</option>';
+
+      }
+  
+      
+    echo $data;
+
+
+    
+
+}
+
+
+
+function getTable($dept,$sem,$sub){
+
+  $table="lalalalal";
+
+  return $table;
+
+}
+
+
+
 
 if(isset($_POST['haikent'])){
 
@@ -59,25 +98,15 @@ $aditi=$_POST['haikent'];
 
 switch ($aditi) {
 	case "getSubjectList":
-	     
-
-                 $subjectList=mysql_query("SELECT * FROM subjectlist WHERE `depart`=$dep AND `sem`=$sem ");
-               
-                  $opt='<option>--subject--</option>'
-                  while($row=mysql_fetch_array($subjectlist)){
-
-
-                       
-
-                  }
-                 
-
-
-
-	     
-
+	 
+       echo subjectList($_POST['depart'],$_POST['sem']);
 
 		break;
+
+  case "getTable":
+     
+     echo getTable($_POST['dept'],$_POST['sem'],$_POST['subject']); 
+    break;
 	
 	default:
 	    echo "Duffer! Think About It";

@@ -17,8 +17,13 @@ $page=new  nitjresult;
 <ul>
    <li><select id="depart"><?php  $page->departList();?></select></li>
    <li><select id="sem"><?php  $page->semList(); ?></select></li>
-   <li><select id="subject"></select>h</li>
+   <li><select id="subject"></select></li>
 </ul>
+
+
+<div id="table">
+  table show here
+</div>
 
 
 
@@ -38,14 +43,51 @@ $("#depart,#sem").change(function(){
     $.post("nitjpage.php",
     {
     	
-        depa:depart,
-        sems:sem,
+        depart:depart,
+        sem:sem,
         haikent: "getSubjectList" 
         
     },
     function(data, status){
-        alert("Data: " + data + "\nStatus: " + status);
+        
+           if(status=="success")
+           {
+              $("#subject").html(data);
+           }
+
     });
+
+});
+
+
+
+$("#subject").change(function(){
+
+  var depart=$("#depart").val();
+  var sem=$("#sem").val();
+  var subject=$("#subject").val();
+
+   
+
+      $.post("nitjpage.php",
+    {
+      
+        dept:depart,
+        sem:sem,
+        subject:subject,
+        haikent: "getTable" 
+        
+    },
+    function(data, status){
+        
+           if(status=="success")
+           {
+              $("#table").html(data);
+           }
+
+    });
+
+
 
 
 });

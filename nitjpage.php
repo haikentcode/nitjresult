@@ -59,7 +59,7 @@ function subjectList($depart,$sem){
 
      mysql_select_db("nitjresult",$hk);
        
-     $result=mysql_query("SELECT * FROM subjectlist WHERE `sem`='$sem' AND `depart`='$depart' ");
+     $result=mysql_query("SELECT * FROM subjectlist WHERE `sem`='$sem' AND `dept`='$depart' ");
      
        $data="";
       while($row=mysql_fetch_array($result)){
@@ -79,9 +79,40 @@ function subjectList($depart,$sem){
 
 
 
-function getTable($dept,$sem,$sub){
+function getTable($dept,$sem,$scode){
 
-  $table="lalalalal";
+
+$hk=mysql_connect("localhost","haikent","gudan");
+
+     if(!$hk) die("problem in connection");
+
+     mysql_select_db("nitjresult",$hk);
+       
+     $result=mysql_query("SELECT * FROM resultdata WHERE `subjectcode`='$scode' ");
+
+
+     $table='<table class="rtable">';
+     
+       $data="";
+      while($row=mysql_fetch_array($result)){
+
+          $data.='<tr id="'.$row['id'].'">';
+          $data.='<td>'.$row['RollNumber'].'</td>';  
+          $data.='<td>'.$row['M1'].'</td>';
+          $data.='<td>'.$row['M2'].'</td>';
+          $data.='<td>'.$row['MJ'].'</td>';
+          $data.='<td>'.$row['Total'].'</td>';
+          $data.='<td>'.$row['Grade'].'</td>';
+          $data.='<td><button>ok</button></td>';
+          $data.='</tr>';
+          
+
+       }
+
+
+       $table.=$data;
+
+       $table.='</table>';
 
   return $table;
 
@@ -106,6 +137,7 @@ switch ($aditi) {
   case "getTable":
      
      echo getTable($_POST['dept'],$_POST['sem'],$_POST['subject']); 
+
     break;
 	
 	default:

@@ -326,7 +326,7 @@ $page=new  nitjresult;
 
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="nitjresultjs.js"></script>
-<script src="http://malsup.github.com/jquery.form.js"></script>
+<script src="js/jquery.form.js"></script>
 
 <script type="text/javascript">
 
@@ -577,7 +577,6 @@ $("#subject").change(function(){
 function getTable(file){
 
   var subjectcode=$("#subject").val();
-  alert();
   $.post("nitjpage.php",
     {
         subjectcode:subjectcode,

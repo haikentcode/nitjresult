@@ -88,7 +88,7 @@ div { margin: 20px; }
 /* -------------------- Source: http://bavotasan.com/2011/style-select-box-using-only-css/ */
 .styled-select {
    background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
-   height: 29px;
+   height: 40px;
    overflow: hidden;
    width: 240px;
 }
@@ -97,7 +97,7 @@ div { margin: 20px; }
    background: transparent;
    border: none;
    font-size: 14px;
-   height: 29px;
+   height: 40px;
    padding: 5px; /* If you add too much padding here, the options won't show in IE */
    width: 268px;
 }
@@ -221,18 +221,23 @@ padding-right: 20px;
     margin: 0 auto;
 }
 
-#leftdiv{
-  
+.leftdiv{
+  display: none;
+border: 2px solid green;
+width: 300px;
+padding: 10px;
+background-color:black; 
 position:fixed;
 right:5%;
-top:45%;
+top:30%;
+opacity: 0.7;
 
 }
 
 .floatingHeader {
   position: fixed;
   top: 0;
-  visibility: hidden;
+  visibility: hidden;ng 
 }
 
 th{
@@ -288,7 +293,7 @@ $page=new  nitjresult;
    
 
 
-<div id="leftdiv">
+<div class="leftdiv">
 
 <div>
   
@@ -305,9 +310,12 @@ $page=new  nitjresult;
         <div id="bar"></div>
         <div id="percent">0%</div >
 </div>
-<div id="message"></div>
+<div id="message">
 
 </div>
+
+</div>
+
 
 <div>
 <input type="button" id="saveall" value="Save All">
@@ -319,6 +327,7 @@ $page=new  nitjresult;
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="nitjresultjs.js"></script>
 <script src="http://malsup.github.com/jquery.form.js"></script>
+
 <script type="text/javascript">
 
 $(window).scroll(function () {
@@ -421,6 +430,8 @@ $("#cfile").change(function(){
 });
 
 
+var GudanHaiku=0;
+
 function Savethis(obj){
  
 
@@ -429,6 +440,8 @@ function Savethis(obj){
    var subject=$("#subject").val();
 
   var hk=$(obj).find("th").html();
+
+
 
   $(obj).find("input").each(function()
              {
@@ -455,8 +468,9 @@ function Savethis(obj){
         
            if(status=="success")
            {
-              //$("#table").html(data);
-              alert("return "+data);
+                
+
+             $("#progress").html("Save data ->"+GudanHaiku++);
 
            }
 
@@ -468,18 +482,19 @@ function Savethis(obj){
 
 $("#saveall").click(function(){
 
-  
+  GudanHaiku=0;
   $('tbody tr').each(function(){
 
-
  Savethis(this);       
-
-
+ 
   });
 
   
 
 });
+
+
+
 
 
 
@@ -532,6 +547,23 @@ $("#subject").change(function(){
            if(status=="success")
            {
               $("#table").html(data);
+
+              var dept=$("#depart").val();
+              var sem=$("#sem").val();
+              var subject=$("#subject").val();
+               
+              h1="<h4><font color='green'>Department:"+dept+"</font></h4>";
+              h2="<h4><font color='green'>semester:"+sem+"</font></h4>";
+              h3="<h4><font color='green'>subject:"+subject+"</font></h4>";
+
+           $("#message").html(h1+h2+h3);
+           
+
+            $('html, body').animate({
+                 'scrollTop' : $("#one").position().top+50
+              });
+             
+             $('.leftdiv').slideDown(1000);
            }
 
     });
@@ -577,11 +609,7 @@ function getTable(file){
 
 }
 
-$("#ufb").click(function(){
-  
-  $("#uploadfile").click();
 
-});
 
 
 
@@ -595,6 +623,12 @@ function save(obj){
   var trid=$(obj).data('hkid');
 
    var hk=$("#"+trid+" th").html();
+
+
+
+   var cb=$("#"+trid).find("input[type='checkbox']");
+   if(cb.prop('checked')==false){alert("not checked");return 0;}
+
   $("#"+trid+" input").each(function()
              {
                
@@ -603,6 +637,9 @@ function save(obj){
                 hk+="-"+data;   
 
              });
+   
+   var cb=$("#"+trid).find("input[type='checkbox']");
+   if(cb.prop('checked')==false){return 0;}
    
         
            $.post("nitjpage.php",
@@ -619,8 +656,8 @@ function save(obj){
         
            if(status=="success")
            {
-              //$("#table").html(data);
-              alert("->"+data);
+             
+              alert(data);
 
            }
 
@@ -649,12 +686,7 @@ function save(obj){
         </div>
       </section>
 
-    <!-- Two -->
-      <section id="two" class="wrapper style2 special">
-        <div class="container">
-          
-        </div>
-      </section>
+  
 
     <!-- Three -->
       <section id="three" class="wrapper style3 special">

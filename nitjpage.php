@@ -107,7 +107,7 @@ $hk=mysql_connect("localhost","haikent","gudan");
                 <th>TA</th>
                 <th>Total</th>
                 <th>Grade</th>
-                
+                <th></th><th></th>
 
             </tr></thead><tbody>';
 
@@ -123,6 +123,7 @@ $hk=mysql_connect("localhost","haikent","gudan");
           $data.='<td><input value="'.$row['TA'].'"></td>';
           $data.='<td><input value="'.$row['Total'].'"></td>';
           $data.='<td><input value="'.$row['Grade'].'"></td>';
+          $data.='<td><input  type="checkbox" checked></td>';
           $data.='<td><button data-hkid="'.$hkid.'"  onclick="save(this)">save</button></td>';
           $data.='</tr>';
           
@@ -144,7 +145,7 @@ function uploadcsvFile($file,$subjectcode){
 
 
 
-  $table='<thead id="hkheader"><tr><th>RollNumber</th><th>M1</th><th>M2</th><th>MJ</th><th>TA</th><th>Total</th><th>Grade</th></tr></thead><tbody>';
+  $table='<thead id="hkheader"><tr><th>RollNumber</th><th>M1</th><th>M2</th><th>MJ</th><th>TA</th><th>Total</th><th>Grade</th><th></th><th></th></tr></thead><tbody>';
   $data=""; 
  
  
@@ -162,6 +163,7 @@ function uploadcsvFile($file,$subjectcode){
           $data.='<td><input value="'.$row[4].'"></td>';
           $data.='<td><input value="'.$row[5].'"></td>';
           $data.='<td><input value="'.$row[6].'"></td>';
+          $data.='<td><input type="checkbox" checked></td>';
           $data.='<td>';
           $data.='<button data-hkid="'.$hkid.'"  onclick="save(this)">save</button>';
           $data.='</td>';

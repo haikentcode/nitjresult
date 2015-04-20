@@ -1,20 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>NITJ RESULT</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/skel.min.js"></script>
+    <script src="js/skel-layers.min.js"></script>
+    <script src="js/init.js"></script>
+    <noscript>
+      <link rel="stylesheet" href="css/skel.css" />
+      <link rel="stylesheet" href="css/style.css" />
+      <link rel="stylesheet" href="css/hkstyle.css" />
+      <link rel="stylesheet" href="css/style-xlarge.css" />
+    </noscript>
+  </head>
+  <body class="landing">
 
-</html>
+    <!-- Header -->
+      <header id="header">
+        <h1><a href="index.php">NITJ RESULT</a></h1>
+        <nav id="nav">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="generic.html">Generic</a></li>
+            <li><a href="elements.html">Elements</a></li>
+            <li><a href="#" class="button special">Sign Up</a></li>
+          </ul>
+        </nav>
+      </header>
 
-
-
-<?php
- 
- require_once 'nitjpage.php';
-
-$page=new  nitjresult;
-
-
-
-?>
-
-<style type="text/css">
-
+   <style type="text/css">
+   
 table {
     border-collapse: collapse;
     margin-bottom: 3em;
@@ -189,8 +209,55 @@ select#soflow-color {
   display: none;
 }
 
+li{
 
-</style>
+   display: inline;
+list-style-type: none;
+padding-right: 20px;
+}
+
+#inner {
+    display: table;
+    margin: 0 auto;
+}
+
+#leftdiv{
+  
+position:fixed;
+right:5%;
+top:45%;
+
+}
+
+.floatingHeader {
+  position: fixed;
+  top: 0;
+  visibility: hidden;
+}
+
+th{
+
+  margin-left:10px;
+  width:73px; 
+}
+
+
+   </style>   
+
+    <!-- Banner -->
+      <section id="banner">
+
+        <div id="inner">
+           
+          <?php
+ 
+ require_once 'nitjpage.php';
+
+$page=new  nitjresult;
+
+?>
+
+
 
 <ul>
    <li><select id="depart" class="styled-select blue semi-square"><?php  $page->departList();?></select></li>
@@ -198,22 +265,221 @@ select#soflow-color {
    <li><select id="subject" class="styled-select blue semi-square" ></select></li>
 </ul>
 
+        </div>
 
-<div id="table">
+        
+      </section>
 
-  table show here
+    <!-- One -->
+      <section id="one" class="wrapper style1 special">
+      
+         
+           
+
+
+
+
+<div id="">
+  <table class="rtable" id="table" class="persist-area">
+  
+  </table>
+
+</div>
+   
+
+
+<div id="leftdiv">
+
+<div>
+  
+  <div style="display:none;"> 
+   <form id="myForm" action="upload.php" method="post" enctype="multipart/form-data">
+     <input type="file" size="60" name="myfile" id="cfile">
+     <input type="submit" value="Upload" id="sbutton">
+   </form>
+  </div> 
+  
+  <input type="button" value="Upload" id="uploadb">
+
+ <div id="progress">
+        <div id="bar"></div>
+        <div id="percent">0%</div >
+</div>
+<div id="message"></div>
+
 </div>
 
 <div>
-  <input type="file" id="uploadfile" >
-  <button id="ufb">uploadFile</button>
+<input type="button" id="saveall" value="Save All">
+</div>
+
 
 </div>
 
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="nitjresultjs.js"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script>
 <script type="text/javascript">
 
+$(window).scroll(function () {
+                    var height = $('body').height();
+                    var scrollTop = $(window).scrollTop();
+
+                      if(scrollTop>500){
+                          $('#hkheader').css({ 'position': 'fixed', 'top' : '0' });
+                    }
+                      else{
+                         $('#hkheader').css({ 'position': 'relative', 'top': '500px'});
+                       }
+                })
+
+
+
+$(document).ready(function()
+{
+ 
+    var options = { 
+    beforeSend: function() 
+    {
+        $("#progress").show();
+        //clear everything
+        $("#bar").width('0%');
+        $("#message").html("");
+        $("#percent").html("0%");
+    },
+    uploadProgress: function(event, position, total, percentComplete) 
+    {
+        $("#bar").width(percentComplete+'%');
+        $("#percent").html(percentComplete+'%');
+ 
+    },
+    success: function() 
+    {
+        $("#bar").width('100%');
+        $("#percent").html('100%');
+ 
+    },
+    complete: function(response) {
+
+
+       if(response.responseText!="error") getTable(response.responseText);
+       
+    },
+    error: function()
+    {
+        $("#message").html("<font color='red'> ERROR: unable to upload files</font>");
+ 
+    }
+ 
+}; 
+ 
+     $("#myForm").ajaxForm(options);
+ 
+});
+ 
+</script>
+
+<script type="text/javascript">
+
+
+function hkvalid(){
+
+   var dept=$("#depart").val();
+
+  if(dept=="select") return false;
+
+   var sem=$("#sem").val();
+
+  if(sem=="select") return false;
+   
+  var subject=$("#subject").val();
+
+  if(subject=="select") return false;
+
+  return true;
+
+
+}
+
+$("#uploadb").click(function() {
+   
+  if(hkvalid()){
+
+  $("#cfile").click();
+}else{
+
+  alert("please select subject department and subject");
+
+}
+
+});
+
+$("#cfile").change(function(){
+
+  $("#sbutton").click();
+
+});
+
+
+function Savethis(obj){
+ 
+
+   var dept=$("#depart").val();
+   var sem=$("#sem").val();
+   var subject=$("#subject").val();
+
+  var hk=$(obj).find("th").html();
+
+  $(obj).find("input").each(function()
+             {
+               
+                var data=$(this).val(); 
+                
+                hk+="-"+data;   
+
+             });
+
+       
+        
+           $.post("nitjpage.php",
+           {
+            dept:dept,
+            sem:sem,
+            subject:subject,
+            hkdata:hk,
+            haikent:"saveData"
+            
+        
+          },
+        function(data, status){
+        
+           if(status=="success")
+           {
+              //$("#table").html(data);
+              alert("return "+data);
+
+           }
+
+        });
+
+         
+
+}
+
+$("#saveall").click(function(){
+
+  
+  $('tbody tr').each(function(){
+
+
+ Savethis(this);       
+
+
+  });
+
+  
+
+});
 
 
 
@@ -225,7 +491,7 @@ $("#depart,#sem").change(function(){
     
     $.post("nitjpage.php",
     {
-    	
+        
         depart:depart,
         sem:sem,
         haikent: "getSubjectList" 
@@ -276,11 +542,10 @@ $("#subject").change(function(){
 });
 
 
-$("#uploadfile").change(function(){
+function getTable(file){
 
-  var file=$("#uploadfile").val();
   var subjectcode=$("#subject").val();
- 
+  alert();
   $.post("nitjpage.php",
     {
         subjectcode:subjectcode,
@@ -289,18 +554,28 @@ $("#uploadfile").change(function(){
         
     },
     function(data, status){
-          
-           alert(); 
+         
+           
            if(status=="success")
            {
+              
               $("#table").html(data);
+
+              var dept=$("#depart").val();
+              var sem=$("#sem").val();
+              var subject=$("#subject").val();
+               
+              h1="<h4><font color='green'>Department:"+dept+"</font></h4>";
+              h2="<h4><font color='green'>semester:"+sem+"</font></h4>";
+              h3="<h4><font color='green'>subject:"+subject+"</font></h4>";
+
+           $("#message").html(h1+h2+h3);
+        
            }
 
     });
-   
-   alert();
 
-});
+}
 
 $("#ufb").click(function(){
   
@@ -310,13 +585,88 @@ $("#ufb").click(function(){
 
 
 
+function save(obj){
+  
+
+  var dept=$("#depart").val();
+  var sem=$("#sem").val();
+  var subject=$("#subject").val();
+
+  var trid=$(obj).data('hkid');
+
+   var hk=$("#"+trid+" th").html();
+  $("#"+trid+" input").each(function()
+             {
+               
+                var data=$(this).val(); 
+                
+                hk+="-"+data;   
+
+             });
+   
+        
+           $.post("nitjpage.php",
+           {
+            dept:dept,
+            sem:sem,
+            subject:subject,
+            hkdata:hk,
+            haikent:"saveData"
+            
+        
+          },
+        function(data, status){
+        
+           if(status=="success")
+           {
+              //$("#table").html(data);
+              alert("->"+data);
+
+           }
+
+        });
+
+         
+    
+
+}  
+  
+
 
 
 
 </script>
  
 
+
+
+
+
+
+
+
+          
+        </div>
+      </section>
+
+    <!-- Two -->
+      <section id="two" class="wrapper style2 special">
+        <div class="container">
+          
+        </div>
+      </section>
+
+    <!-- Three -->
+      <section id="three" class="wrapper style3 special">
+        <div class="container">
+          
+        </div>
+      </section>
+
+    <!-- Footer -->
+      <footer>
+
+      </footer>
+
+  </body>
 </html>
-
-
-

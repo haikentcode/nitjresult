@@ -318,6 +318,7 @@ $page=new  nitjresult;
 
 
 <div>
+<input type="button" id="checkall" value="checkall">
 <input type="button" id="saveall" value="Save All">
 </div>
 
@@ -493,7 +494,28 @@ $("#saveall").click(function(){
 
 });
 
+function checkthis(obj){
 
+  var hk=$(obj).find("input[type='checkbox']");
+
+   if(hk.prop('checked')==false)
+    {
+    
+    hk.prop('checked', true);
+    }
+
+}
+
+$("#checkall").click(function(){
+
+GudanHaiku=0;
+  $('tbody tr').each(function(){
+
+ checkthis(this);       
+ 
+  });
+
+});
 
 
 
@@ -673,15 +695,7 @@ function save(obj){
 
 </script>
  
-
-
-
-
-
-
-
-
-          
+ 
         </div>
       </section>
 
